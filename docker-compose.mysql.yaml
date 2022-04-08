@@ -12,9 +12,10 @@ services:
     volumes:
       - ./node:/usr/src/app
     tty: true
+    ports:
+      - 5000:5000
     depends_on:
       - db
-      - nginx
   db:
     image : mysql:5.7
     command: --innodb-use-native-aio=0
@@ -30,16 +31,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     networks:
       - node-network
-  nginx :
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.prod
-    image : kevenmario/nginx:prod
-    container_name: nginx
-    networks:
-      - node-network
-    ports:
-      - 8080:80
+
 networks : 
   node-network : 
     driver: bridge
